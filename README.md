@@ -1,7 +1,7 @@
 Wallets app (Django + MySQL + Redis)
 ================
 
-**Run (first db, the app and cache)**
+**Run (first db, then app and cache)**
 ```sh
 docker-compose up -d --build db
 docker-compose up -d --build
