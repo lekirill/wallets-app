@@ -7,6 +7,11 @@ docker-compose up -d --build db
 docker-compose up -d --build
 ```
 
+Wallet API runs on:
+```
+http://0.0.0.0:8080/
+```
+
 **Run tests**
 1. Workdir `./app/`
 2. Set env **DEBUG** as `True`, **DJANGO_SETTINGS_MODULE** as `tests.settings`, **PYTHONUNBUFFERED** `True`
