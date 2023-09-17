@@ -1,0 +1,49 @@
+version: '3.6'
+services:
+  cache:
+    image: redis:6.2-alpine
+    container_name: wallets-cache
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 100
+  db:
+    image: mysql:latest
+    container_name: wallets-db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+      - MYSQL_DATABASE=wallets
+    volumes:
+      - wallets-db:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  web:
+    image: wallets-app:latest
+    container_name: wallets-app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - ./wallets:/wallets
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - cache
+    environment:
+      - REDIS_HOST=host.docker.internal
+      - REDIS_PORT=6379
+      - DJANGO_DB_HOST=host.docker.internal
+      - DJANGO_DB_PORT=3307
+      - DJANGO_DB_NAME=wallets
+      - DJANGO_DB_USER=user
+      - DJANGO_DB_PASSWORD=pass
+      - DEBUG=true
+    restart: always
+
+volumes:
+  wallets-db:
