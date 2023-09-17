@@ -13,5 +13,6 @@ docker-compose up -d --build
 4. Run:
 ```sh
 pip install coverage
+coverage run manage.py test
 coverage report
 ```
